@@ -9,9 +9,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.esprit.examen</groupId>
-	<artifactId>tpAchatProject</artifactId>
+	<artifactId>projetDevops</artifactId>
 	<version>1.0</version>
-	<name>tpAchatProject</name>
+	<name>projetDevops</name>
 	<description>tpAchatProject</description>
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
