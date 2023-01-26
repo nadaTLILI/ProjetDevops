@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.esprit.examen.entities.CategorieProduit;
 import com.esprit.examen.services.ICategorieProduitService;
 import io.swagger.annotations.Api;
-
+//changement pour commit amina
 @RestController
 @Api(tags = "Gestion des categories Produit")
 @RequestMapping("/categorieProduit")
