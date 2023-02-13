@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+     triggers {
+        pollSCM('H/5 * * * *')
+    }
+    stages {
+        stage('checkout GIT') {
+            steps {
+                echo 'Pulling ...'
+                git branch: 'aicha',
+                url: 'https://github.com/nadaTLILI/ProjetDevops.git',
+                credentialsId: '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'
+            }
+        }
+        stage('Affichage de la date système') {
+            steps {
+                sh 'date'
+            }
+        }
+         stage('maven version') {
+            steps {
+                sh 'mvn -version'
+            }
+        }
+         stage('Maven Clean') {
+            steps {
+                sh 'mvn clean'
+            }
+        }
+         stage('Maven Compile') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+         stage('Construction du livrable') {
+            steps {
+                sh 'mvn compiler:compile'
+            }
+        }
+        stage('Maven test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Maven SONARQUBE') {
+            steps {
+                sh 'mvn sonar:sonar'
+            }
+        }
+    }
+}
