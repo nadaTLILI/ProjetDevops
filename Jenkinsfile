@@ -1,15 +1,14 @@
 pipeline {
     agent any
-     triggers {
-        pollSCM('H/5 * * * *')
+    triggers {
+        githubPush()
     }
     stages {
         stage('checkout GIT') {
             steps {
                 echo 'Pulling ...'
                 git branch: 'aicha',
-                url: 'https://github.com/nadaTLILI/ProjetDevops.git',
-                credentialsId: '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'
+                    url: 'https://github.com/nadaTLILI/ProjetDevops.git'
             }
         }
         stage('Affichage de la date système') {
@@ -17,22 +16,22 @@ pipeline {
                 sh 'date'
             }
         }
-         stage('maven version') {
+        stage('maven version') {
             steps {
                 sh 'mvn -version'
             }
         }
-         stage('Maven Clean') {
+        stage('Maven Clean') {
             steps {
                 sh 'mvn clean'
             }
         }
-         stage('Maven Compile') {
+        stage('Maven Compile') {
             steps {
                 sh 'mvn clean package'
             }
         }
-         stage('Construction du livrable') {
+        stage('Construction du livrable') {
             steps {
                 sh 'mvn compiler:compile'
             }
@@ -42,10 +41,13 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Maven SONARQUBE') {
-            steps {
-                sh 'mvn sonar:sonar'
-            }
-        }
+       stage('Maven SonarQube Analysis') {
+           environment {
+               SONAR_TOKEN = credentials('sonarqube_token')
+           }
+           steps {
+               sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
+           }
+       }
     }
 }
