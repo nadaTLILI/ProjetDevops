@@ -17,7 +17,7 @@ services:
            retries: 10
     restart: always
   backendserver:
-    image: 'spring:latest'
+    image: 'nadatlili/spring:latest'
     ports:
            - "8081"
     links:
