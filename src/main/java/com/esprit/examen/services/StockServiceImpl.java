@@ -17,15 +17,21 @@ public class StockServiceImpl implements IStockService {
 	StockRepository stockRepository;
 
 
+	public StockServiceImpl(StockRepository stockRepository2) {
+		// TODO Auto-generated constructor stub
+		 this.stockRepository = stockRepository;
+	}
+
 	@Override
 	public List<Stock> retrieveAllStocks() {
 		// récuperer la date à l'instant t1
-		log.info("In method retrieveAllStocks");
+		//log.info("In method retrieveAllStocks");
 		List<Stock> stocks = (List<Stock>) stockRepository.findAll();
 		for (Stock stock : stocks) {
-			log.info(" Stock : " + stock);
+			//log.info(" Stock : " + stock);
+			System.out.println(" Stock : " + stock);
 		}
-		log.info("out of method retrieveAllStocks");
+		//log.info("out of method retrieveAllStocks");
 		// récuperer la date à l'instant t2
 		// temps execution = t2 - t1
 		return stocks;
@@ -34,38 +40,44 @@ public class StockServiceImpl implements IStockService {
 	@Override
 	public Stock addStock(Stock s) {
 		// récuperer la date à l'instant t1
-		log.info("In method addStock");
+		//log.info("In method addStock");
 		return stockRepository.save(s);
 		
 	}
 
 	@Override
 	public void deleteStock(Long stockId) {
-		log.info("In method deleteStock");
+		//log.info("In method deleteStock");
 		stockRepository.deleteById(stockId);
 
 	}
 
 	@Override
 	public Stock updateStock(Stock s) {
-		log.info("In method updateStock");
+		//log.info("In method updateStock");
 		return stockRepository.save(s);
 	}
 
 	@Override
 	public Stock retrieveStock(Long stockId) {
 		long start = System.currentTimeMillis();
-		log.info("In method retrieveStock");
+		//log.info("In method retrieveStock");
 		Stock stock = stockRepository.findById(stockId).orElse(null);
-		log.info("out of method retrieveStock");
+		//log.info("out of method retrieveStock");
 		 long elapsedTime = System.currentTimeMillis() - start;
-		log.info("Method execution time: " + elapsedTime + " milliseconds.");
+		//log.info("Method execution time: " + elapsedTime + " milliseconds.");
 
 		return stock;
 	}
 
 	@Override
 	public String retrieveStatusStock() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//@Override
+	/*public String retrieveStatusStock() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		Date now = new Date();
 		String msgDate = sdf.format(now);
@@ -79,8 +91,8 @@ public class StockServiceImpl implements IStockService {
 					+ newLine;
 
 		}
-		log.info(finalMessage);
+		//log.info(finalMessage);
 		return finalMessage;
-	}
+	}*/
 
 }
