@@ -1,10 +1,7 @@
 pipeline {
     agent any
     triggers {
-        [
-            githubPush(),
-            cron('*/30 * * * * *')
-        ]
+        githubPush()
     }
     stages {
         stage('checkout GIT') {
