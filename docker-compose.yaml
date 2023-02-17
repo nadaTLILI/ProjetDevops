@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  backend:
+  backendserver:
     build: .
     ports:
       - "8080:8080"
@@ -25,6 +25,17 @@ services:
       - MYSQL_ROOT_PASSWORD=root123
       - MYSQL_ROOT_HOST=%
     restart: always
+
+  frontend:
+    image: 'longyearbyenr/devopsfront:latest'
+    links:
+      - "backendserver"
+    depends_on:
+      - "backendserver"
+    ports:
+      - "80:80"
+    networks:
+      - springmysql-net
 
 networks:
   springmysql-net:
