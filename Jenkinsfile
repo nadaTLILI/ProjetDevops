@@ -26,14 +26,7 @@ pipeline {
                 sh 'mvn clean -U'
             }
         }
-        stage('Setup Maven') {
-          steps {
-            sh '''
-              mkdir -p $HOME/.m2
-              sudo cp /usr/share/maven/conf/settings.xml $HOME/.m2/
-            '''
-          }
-        }
+
         stage('Maven Compile') {
             steps {
                 sh 'mvn clean package'
