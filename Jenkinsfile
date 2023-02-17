@@ -23,8 +23,16 @@ pipeline {
         }
         stage('Maven Clean') {
             steps {
-                sh 'mvn clean'
+                sh 'mvn clean -U'
             }
+        }
+        stage('Setup Maven') {
+          steps {
+            sh '''
+              mkdir -p $HOME/.m2
+              cp settings.xml $HOME/.m2/
+            '''
+          }
         }
         stage('Maven Compile') {
             steps {
@@ -47,6 +55,13 @@ pipeline {
            }
            steps {
                sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
+           }
+       }
+       stage('Deploy to Nexus') {
+           steps {
+               withMaven(maven: 'maven-3.0.5', mavenSettingsConfig: 'maven-settings') {
+                   sh 'mvn deploy'
+               }
            }
        }
     }
