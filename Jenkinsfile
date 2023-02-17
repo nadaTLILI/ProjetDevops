@@ -28,5 +28,10 @@ pipeline {
                 sh 'mvn test'
             }
         }
+         stage('Sonar analysis') {
+            steps {
+                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=password'
+            }
+        }
     }
 }
