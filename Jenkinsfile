@@ -84,12 +84,18 @@ pipeline {
             }
         }
         stage('Build image back') {
+                        steps {
+                script {
             dockerImage = docker.build("longyearbyenr/devopsback:latest")
+                }}
         }
         stage('Push image') {
+                        steps {
+                script {
             withDockerRegistry([ credentialsId: "dockerhubaccount", url: "" ]) {
             dockerImage.push()
             }
+                }}
         }    
     }
 }
