@@ -7,7 +7,7 @@ pipeline {
         stage('checkout GIT') {
             steps {
                 echo 'Pulling ...'
-                git branch: 'mehdi',
+                git branch: 'ymastouri',
                     url: 'https://github.com/nadaTLILI/ProjetDevops.git'
             }
         }
