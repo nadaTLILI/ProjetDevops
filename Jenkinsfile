@@ -33,5 +33,15 @@ pipeline {
                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=password'
             }
         }
+
+        stage('Publish') {
+            steps {
+                sh '''
+                    docker build -t npcscan/devops-exam-image:1 .
+                    docker login -u npcscan -p password123
+                    docker push npcscan/devops-exam-image:1
+                    '''
+            }
+        }
     }
 }

@@ -46,11 +46,19 @@ class FactureServiceImplTest {
             Facture facture1 = anyFacture();
             Facture facture2 = anyFacture();
 
-            factureService.addFacture(facture1);
+            factureRepository.save(facture1);
             factureRepository.save(facture2);
 
             List<Facture> factureList = factureService.retrieveAllFactures();
             assertThat(factureList.size()).isEqualTo(2);
+            assertThat(factureList.get(0)).isSameAs(facture1);
+            assertThat(factureList.get(1)).isSameAs(facture2);
+        }
+
+        @Test
+        public void retrieveAllFacture_ReturnsEmpty() {
+            List<Facture> factureList = factureService.retrieveAllFactures();
+            assertThat(factureList.size()).isEqualTo(0);
         }
     }
 
