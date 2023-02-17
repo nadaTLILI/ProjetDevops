@@ -1,0 +1,27 @@
+nexus-data:
+  container_name: nexus-data
+  image: sonatype/nexus:oss
+  command: echo "data-only container for Nexus"
+
+nexus:
+  container_name: nexus
+  image: sonatype/nexus:oss
+  environment:
+    - CONTEXT_PATH=/nexus
+  volumes_from:
+    - nexus-data
+
+sonar-db:
+  container_name: sonar-db
+  image: postgres
+  environment:
+    - POSTGRES_USER=aicha
+    - POSTGRES_PASSWORD=password
+
+sonar:
+  container_name: sonar
+  image: sonarqube
+  environment:
+    - SONARQUBE_JDBC_URL=jdbc:postgresql://192.168.1.9:5432/sonardb
+  links:
+    - sonar-db:db

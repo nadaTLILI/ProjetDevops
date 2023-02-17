@@ -2,6 +2,7 @@ pipeline {
     agent any
     triggers {
         githubPush()
+
     }
     stages {
         stage('checkout GIT') {
@@ -11,29 +12,7 @@ pipeline {
                     url: 'https://github.com/nadaTLILI/ProjetDevops.git'
             }
         }
-        stage('Affichage de la date système') {
-            steps {
-                sh 'date'
-            }
-        }
-        stage('maven version') {
-            steps {
-                sh 'mvn -version'
-            }
-        }
-        stage('Maven Clean') {
-            steps {
-                sh 'mvn clean -U'
-            }
-        }
-        stage('Setup Maven') {
-          steps {
-            sh '''
-              mkdir -p $HOME/.m2
-              sudo cp /usr/share/maven/conf/settings.xml $HOME/.m2/
-            '''
-          }
-        }
+
         stage('Maven Compile') {
             steps {
                 sh 'mvn clean package'
@@ -57,12 +36,28 @@ pipeline {
                sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
            }
        }
-       stage('Deploy to Nexus') {
-           steps {
-               withMaven(maven: 'maven-3.0.5', mavenSettingsConfig: 'maven-settings') {
-                   sh 'mvn deploy'
-               }
-           }
-       }
+
+        /*stage ('deploy to Nexus') {
+            steps {
+                container ('maven') {
+                    sh 'mvn deploy -DaltDeploymentRepository=nexus::default::http://192.168.1.80:8081/repository/deploymentRepo/'
+                }
+            }
+        }*/
+
+    stage('Publish') {
+        environment {
+            DOCKER_HUB_USERNAME = 'sassiaichaezzahra'
+            DOCKER_HUB_PASSWORD = credentials('docker_hub_token')
+        }
+        steps {
+            sh '''
+                docker build -t sassiaichaezzahra/devops-exam-image:1 .
+                docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+                docker push sassiaichaezzahra/devops-exam-image:1
+            '''
+        }
+}
+
     }
 }
