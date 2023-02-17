@@ -2,7 +2,7 @@ pipeline {
     // agent { docker { image 'maven:3.9.0-eclipse-temurin-11' } }
     agent any
     tools {
-        maven "Maven"
+        maven "M2_HOME"
     }
     environment {
         NEXUS_VERSION = "nexus3"
