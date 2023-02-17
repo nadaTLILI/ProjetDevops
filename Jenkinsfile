@@ -32,7 +32,7 @@ pipeline {
                SONAR_TOKEN = credentials('sonarqube_token')
            }
            steps {
-               sh 'mvn sonar:sonar -Dsonar.projectKey=devops -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_TOKEN'
+               sh 'mvn sonar:sonar   -Dsonar.projectKey=devops   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=$SONAR_TOKEN'
                sh 'echo "Running SonaQube"'
            }
        }
