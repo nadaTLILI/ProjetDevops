@@ -45,19 +45,18 @@ pipeline {
             }
         }*/
 
-    stage('Publish') {
-        environment {
-            DOCKER_HUB_USERNAME = 'sassiaichaezzahra'
-            DOCKER_HUB_PASSWORD = credentials('docker_hub_token')
+        stage('Publish') {
+            environment {
+                DOCKER_HUB_USERNAME = 'sassiaichaezzahra'
+                DOCKER_HUB_PASSWORD = credentials('docker_hub_token')
+            }
+            steps {
+                sh '''
+                    docker build -t $DOCKER_HUB_USERNAME/devops-exam-image:1 .
+                    docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+                    docker push $DOCKER_HUB_USERNAME/devops-exam-image:1
+                '''
+            }
         }
-        steps {
-            sh '''
-                docker build -t sassiaichaezzahra/devops-exam-image:1 .
-                docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-                docker push sassiaichaezzahra/devops-exam-image:1
-            '''
-        }
-}
-
     }
 }
