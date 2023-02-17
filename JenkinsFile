@@ -14,11 +14,7 @@ pipeline {
                 credentialsId: 'gitAmina';
             }
         }
-        stage('BUILD') {
-            steps{
-                sh 'mvn -f ProjetDevops/pom.xml clean install'
-                }
-        }
+
 
     }
 
