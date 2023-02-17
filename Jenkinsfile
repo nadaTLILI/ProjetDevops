@@ -7,32 +7,18 @@ pipeline {
         stage('checkout GIT') {
             steps {
                 echo 'Pulling ...'
-                git branch: 'aicha',
+                git branch: 'mehdi',
                     url: 'https://github.com/nadaTLILI/ProjetDevops.git'
-            }
-        }
-        stage('Affichage de la date système') {
-            steps {
-                sh 'date'
-            }
-        }
-        stage('maven version') {
-            steps {
-                sh 'mvn -version'
             }
         }
         stage('Maven Clean') {
             steps {
-                sh 'mvn clean -U'
+            sh 'date'
+            sh 'mvn -version'
+            sh 'mvn clean package'
             }
         }
-
         stage('Maven Compile') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
-        stage('Construction du livrable') {
             steps {
                 sh 'mvn compiler:compile'
             }
@@ -42,20 +28,5 @@ pipeline {
                 sh 'mvn test'
             }
         }
-       stage('Maven SonarQube Analysis') {
-           environment {
-               SONAR_TOKEN = credentials('sonarqube_token')
-           }
-           steps {
-               sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
-           }
-       }
-       stage('Deploy to Nexus') {
-           steps {
-               withMaven(maven: 'maven-3.0.5', mavenSettingsConfig: 'maven-settings') {
-                   sh 'mvn deploy'
-               }
-           }
-       }
     }
 }
