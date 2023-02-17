@@ -30,7 +30,7 @@ pipeline {
           steps {
             sh '''
               mkdir -p $HOME/.m2
-              cp settings.xml $HOME/.m2/
+              cp /usr/share/maven/conf/settings.xml $HOME/.m2/
             '''
           }
         }
