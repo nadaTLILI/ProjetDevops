@@ -22,24 +22,12 @@ pipeline {
                 sh 'mvn clean'
             }
         }
-        stage('Maven Package') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-        /*
-        stage('Construction du livrable') {
-            steps {
-                sh 'mvn compiler:compile'
-            }
-        }
-        
         stage('Maven test') {
             steps {
                 sh 'mvn test'
             }
         }
-       stage('Maven SonarQube Analysis') {
+        stage('Maven SonarQube Analysis') {
            environment {
                SONAR_TOKEN = credentials('sonarqube_token')
            }
@@ -47,7 +35,12 @@ pipeline {
                sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
            }
        }
-       */
+                stage('Maven Package') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
         stage("Publish to Nexus Repository Manager") {
             steps {
                 script {
@@ -83,12 +76,14 @@ pipeline {
                 }
             }
         }
+
         stage('Build image back') {
                         steps {
                 script {
             dockerImage = docker.build("longyearbyenr/devopsback:latest")
                 }}
         }
+
         stage('Push image') {
                         steps {
                 script {
@@ -96,6 +91,6 @@ pipeline {
             dockerImage.push()
             }
                 }}
-        }    
+        }
     }
 }
